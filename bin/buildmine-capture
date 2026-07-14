@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# buildmine :: capture a single build moment into the journal.
+#
+# Usage:
+#   buildmine-capture --type <win|ship|milestone|insight|struggle> \
+#                     --text "one crisp first-person sentence" \
+#                     [--tags comma,separated] [--source model|git|manual]
+#
+# Appends one JSON object per line to .claude/buildmine/journal.jsonl in the
+# current project. Safe to call many times; it never blocks and never posts.
+
+set -euo pipefail
+
+TYPE=""
+TEXT=""
+TAGS=""
+SOURCE="model"
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --type)   TYPE="${2:-}"; shift 2 ;;
+    --text)   TEXT="${2:-}"; shift 2 ;;
+    --tags)   TAGS="${2:-}"; shift 2 ;;
+    --source) SOURCE="${2:-}"; shift 2 ;;
+    *) echo "buildmine-capture: unknown arg '$1'" >&2; exit 1 ;;
+  esac
+done
+
+if [ -z "${TYPE}" ] || [ -z "${TEXT}" ]; then
+  echo "buildmine-capture: --type and --text are required" >&2
+  exit 1
+fi
+
+JOURNAL_DIR=".claude/buildmine"
+JOURNAL="${JOURNAL_DIR}/journal.jsonl"
+mkdir -p "${JOURNAL_DIR}/drafts"
+
+TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+# Encode the line with a real JSON encoder to keep quotes/newlines safe.
+encode() {
+  if command -v python3 >/dev/null 2>&1; then
+    python3 - "$@" <<'PY'
+import json, sys
+ts, typ, text, tags, source = sys.argv[1:6]
+tag_list = [t.strip() for t in tags.split(",") if t.strip()] if tags else []
+print(json.dumps({"ts": ts, "type": typ, "text": text, "tags": tag_list, "source": source}, ensure_ascii=False))
+PY
+  elif command -v node >/dev/null 2>&1; then
+    node -e '
+      const [ts,typ,text,tags,source]=process.argv.slice(1);
+      const tag_list=tags?tags.split(",").map(t=>t.trim()).filter(Boolean):[];
+      console.log(JSON.stringify({ts,type:typ,text,tags:tag_list,source}));
+    ' "$@"
+  else
+    echo "buildmine-capture: needs python3 or node to encode JSON" >&2
+    exit 1
+  fi
+}
+
+encode "${TS}" "${TYPE}" "${TEXT}" "${TAGS}" "${SOURCE}" >> "${JOURNAL}"
+
+# Silent success — no stdout so it doesn't clutter the transcript.
+exit 0

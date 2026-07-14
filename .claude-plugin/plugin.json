@@ -1,0 +1,17 @@
+{
+  "name": "buildmine",
+  "description": "Mines your build-in-public journey into viral draft posts for X, Threads, and Instagram. Silently captures the moments you ship, fix, and figure out, then drafts platform-native content in your own voice. Nothing is ever auto-posted.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Callum"
+  },
+  "keywords": [
+    "build-in-public",
+    "social-media",
+    "content",
+    "founders",
+    "creators",
+    "marketing"
+  ],
+  "license": "MIT"
+}

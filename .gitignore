@@ -1,0 +1,6 @@
+# OMC / Claude Code session state
+.omc/
+.claude/
+
+# OS junk
+.DS_Store
