@@ -1,6 +1,6 @@
 ---
 name: buildmine-setup
-description: Set up or update the buildmine voice profile so drafts sound authentically like the user. Use when the user wants to configure buildmine, teach it their writing voice, import an existing voice/tone profile, paste example posts to learn from, or when /buildmine is run but no voice profile exists yet. Triggers on "set up buildmine", "teach buildmine my voice", "buildmine voice", "configure my posting voice".
+description: Set up or update the buildmine voice profile (how drafts sound) and brand profile (how carousels look) so content comes out authentically theirs. Use when the user wants to configure buildmine, teach it their writing voice, import an existing voice/tone or brand guide, paste example posts to learn from, or when /buildmine is run but no voice profile exists yet. Triggers on "set up buildmine", "teach buildmine my voice", "buildmine voice", "configure my posting voice", "set up my buildmine brand".
 ---
 
 # buildmine — voice setup
@@ -36,9 +36,22 @@ When learning from examples, infer these and *quote a couple of real snippets* b
 
 Read `${CLAUDE_PLUGIN_ROOT}/templates/voice-profile.template.md` for the exact structure, fill every section from what you gathered, and write the result to `.claude/buildmine/voice-profile.md` (create the folder if needed). Keep it tight — one screen or so. It is instructions for a writer, not an essay.
 
-## Step 4 — confirm
+## Step 4 — brand (so carousels render in their brand)
 
-Show the user the finished profile, tell them it's saved, and let them know:
+buildmine can turn approved drafts into **Instagram carousels in the user's brand** (the `buildmine-carousel` skill renders finished PNG slides). That needs a small brand profile. Offer it as part of setup — skippable, but pitch it in one line: "want carousels to come out in your brand? takes 2 minutes."
+
+Two ways in:
+1. **Import** — they have a brand guide (HTML, PDF, doc, style tokens). Read it and extract: color hexes, fonts, handle, wordmark treatment.
+2. **Mini-interview** — 4 quick questions: brand colors (light bg, dark bg, one accent), display + body font preferences, the handle to show on slides, and a short masthead label (e.g. "BUILD LOG").
+
+Read `${CLAUDE_PLUGIN_ROOT}/templates/brand-profile.template.md` for the exact structure and write the result to `.claude/buildmine/brand-profile.md`. If a color pairing looks low-contrast (accent text on a light background is the usual offender), derive a darker adjusted accent and record it — slides must stay readable.
+
+If they skip: fine — carousels fall back to a neutral look and they can add a brand anytime with "set up my buildmine brand".
+
+## Step 5 — confirm
+
+Show the user the finished profile(s), tell them they're saved, and let them know:
 - moments are now being captured automatically as they build,
 - they can run `/buildmine` anytime to turn recent moments into drafts,
+- approved drafts can become branded carousels via the `buildmine-carousel` skill ("carousel this"),
 - they can re-run this setup or just say "update my buildmine voice" to refine it (especially after they edit a draft — those edits are the best signal of their real voice).

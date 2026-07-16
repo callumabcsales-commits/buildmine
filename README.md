@@ -2,7 +2,7 @@
 
 **Mine your build-in-public journey into viral draft posts — automatically, in your voice, never auto-posted.**
 
-buildmine is a Claude Code plugin for founders and creators building with Claude. As you work, it quietly captures the moments that matter — the bug you finally killed, the feature you shipped, the insight that changed the plan — the same way Claude saves memory snippets: in the background, no ceremony. When you're ready, one command turns those real moments into scroll-stopping drafts for **X, Threads, and Instagram**, written to sound like *you*. Nothing ever posts on its own. You review, tweak, and publish.
+buildmine is a Claude Code plugin for founders and creators building with Claude. As you work, it quietly captures the moments that matter — the bug you finally killed, the feature you shipped, the insight that changed the plan — the same way Claude saves memory snippets: in the background, no ceremony. When you're ready, one command turns those real moments into scroll-stopping drafts for **X, Threads, and Instagram** — including **carousels rendered in your brand** as upload-ready slides — written to sound like *you*. Nothing ever posts on its own. You review, tweak, and publish.
 
 It's the PostMine idea, but native to how you actually build: it mines *what you really did*, not a scrape of your landing page.
 
@@ -16,7 +16,9 @@ Three cooperating pieces:
 
 2. **Voice.** A one-time setup builds your voice profile — by interview, by pasting a few real posts, or by importing a profile you already have. Every draft obeys it.
 
-3. **Generate (on demand).** Run `/buildmine` and it reads your recent moments + voice profile + platform playbooks, clusters them into stories, and writes platform-native drafts. Instagram comes out as a **reel idea** you can expand into a full video with `/buildmine-reel`.
+3. **Generate (on demand).** Run `/buildmine` and it reads your recent moments + voice profile + platform playbooks, clusters them into stories, and writes platform-native drafts. Instagram comes out as a **reel idea** you can expand into a full video with `/buildmine-reel`, plus a **carousel outline** when the story has a beat-by-beat arc.
+
+4. **Carousels, in your brand.** The setup interview also captures a small brand profile (colors, fonts, handle). Approve any draft ("carousel this") and the `buildmine-carousel` skill writes the slide copy, styles it with *your* brand tokens, and renders finished **1080×1350 PNG slides** into your files — ready to upload, never posted for you. (Rendering uses headless Chrome/Chromium.)
 
 Everything lives in your project under `.claude/buildmine/`, so it's genuinely project-scoped — a different project keeps its own journal, voice, and drafts.
 
@@ -24,7 +26,9 @@ Everything lives in your project under `.claude/buildmine/`, so it's genuinely p
 .claude/buildmine/
 ├── journal.jsonl        # captured moments (auto)
 ├── voice-profile.md     # how you write (from setup)
+├── brand-profile.md     # how your carousels look (from setup, optional)
 ├── drafts/YYYY-MM-DD.md # generated drafts
+├── carousels/           # rendered carousel PNGs + captions, ready to upload
 └── posted.log           # optional: moments already published
 ```
 
@@ -65,7 +69,9 @@ Requires `python3` **or** `node` on your machine (used only to write journal lin
    ```
    Turns a reel idea into a full shot-by-shot video prompt (via the `seedance-2-video-prompt` skill).
 
-5. **Refine.** Edit any draft and tell Claude what was off — it offers to fold your changes back into your voice profile, so drafts get more *you* over time.
+5. **Approve a carousel:** say **"carousel this"** on any draft — slide copy gets written, styled in your brand, and rendered as PNG slides in `.claude/buildmine/carousels/<date>-<slug>/` with a caption. Upload in filename order.
+
+6. **Refine.** Edit any draft and tell Claude what was off — it offers to fold your changes back into your voice profile, so drafts get more *you* over time.
 
 ---
 
@@ -99,13 +105,16 @@ buildmine/
 ├── bin/
 │   ├── buildmine-capture              # append a moment to the journal
 │   ├── buildmine-capture-hook.sh      # PostToolUse: auto-log git commits
-│   └── buildmine-session-start.sh     # SessionStart: turn on background capture
+│   ├── buildmine-session-start.sh     # SessionStart: turn on background capture
+│   └── render-carousel.sh             # slide HTML → 1080×1350 PNGs (headless Chrome)
 ├── skills/
 │   ├── buildmine/SKILL.md             # /buildmine — generate drafts
-│   ├── buildmine-setup/SKILL.md       # /buildmine-setup — build voice profile
-│   └── buildmine-reel/SKILL.md        # /buildmine-reel — reel idea → video
+│   ├── buildmine-setup/SKILL.md       # /buildmine-setup — voice + brand profiles
+│   ├── buildmine-reel/SKILL.md        # /buildmine-reel — reel idea → video
+│   └── buildmine-carousel/SKILL.md    # approved draft → branded carousel PNGs
 └── templates/
     ├── voice-profile.template.md
+    ├── brand-profile.template.md
     ├── draft.template.md
     └── platform-guides/{x,threads,instagram}.md
 ```

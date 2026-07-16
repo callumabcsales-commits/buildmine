@@ -1,6 +1,6 @@
 ---
 name: buildmine
-description: Turn recently captured build-in-public moments into viral draft posts for X, Threads, and Instagram, written in the user's own voice and saved as drafts (never auto-posted). Use when the user runs /buildmine, or asks to "draft posts", "turn my progress into content", "write build-in-public posts", "post about what I shipped", "mine my work for content". For turning an Instagram reel idea into a full video, use the buildmine-reel skill.
+description: Turn recently captured build-in-public moments into viral draft posts for X, Threads, and Instagram, written in the user's own voice and saved as drafts (never auto-posted). Use when the user runs /buildmine, or asks to "draft posts", "turn my progress into content", "write build-in-public posts", "post about what I shipped", "mine my work for content". For turning an Instagram reel idea into a full video, use the buildmine-reel skill. For turning an approved draft into branded carousel slides, use the buildmine-carousel skill.
 ---
 
 # buildmine — generate draft posts from what you built
@@ -36,7 +36,7 @@ Rules that override everything:
 
 - **X:** a single strong post AND, when the story has enough substance, an optional thread version. Respect ~280 chars/tweet.
 - **Threads:** a native Threads take (more conversational, less "thread-optimized" than X; can be a touch longer, casual).
-- **Instagram:** a **reel idea**, not a finished video — a hook line, a 15–30s concept, on-screen text beats, and a caption. Note that the user can run `/buildmine-reel` (the `buildmine-reel` skill) on any reel idea to expand it into a full shot-by-shot video prompt via Seedance.
+- **Instagram:** a **reel idea**, not a finished video — a hook line, a 15–30s concept, on-screen text beats, and a caption. Note that the user can run `/buildmine-reel` (the `buildmine-reel` skill) on any reel idea to expand it into a full shot-by-shot video prompt via Seedance. For stories with a strong beat-by-beat arc (or step-by-step tool walkthroughs), ALSO offer a **carousel outline** (6–10 slides, one thought per slide, slide 1 = hook only) — when the user approves it, the `buildmine-carousel` skill turns it into finished PNG slides **rendered in their brand**, ready to upload.
 
 Give **2 variants** for X and Threads where useful (e.g. one punchy, one story-driven) so the user has a choice.
 
@@ -51,6 +51,7 @@ Also show the drafts inline in your reply so the user can react immediately.
 - Tell the user where the drafts are saved.
 - Invite edits: "tell me what's off and I'll fix it." **When they edit a draft or correct the voice, offer once to fold that change into `.claude/buildmine/voice-profile.md`** — their edits are the best signal of their real voice, and this is how buildmine gets sharper over time.
 - Remind them these are drafts only — nothing is posted. They copy what they like into each platform.
+- If they approve a piece for Instagram ("carousel this", "approve that one"), hand off to the `buildmine-carousel` skill to create the carousel in their brand as upload-ready PNG slides.
 - Optionally mark posted moments so they aren't re-drafted: append their timestamps to `.claude/buildmine/posted.log`, and skip moments listed there on future runs.
 
 ## Guardrails

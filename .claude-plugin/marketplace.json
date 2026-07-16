@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "buildmine",
-      "description": "Silently captures the moments you ship, fix, and figure out, then drafts platform-native content in your own voice. Nothing is ever auto-posted.",
+      "description": "Silently captures the moments you ship, fix, and figure out, then drafts platform-native content in your own voice — including Instagram carousels rendered in your brand. Nothing is ever auto-posted.",
       "source": "./",
       "category": "productivity"
     }

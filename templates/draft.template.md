@@ -53,3 +53,16 @@ _From: <moment(s)>_
 
 _From: <moment(s)>_
 > Run `/buildmine-reel` on this to expand it into a full shot-by-shot video prompt.
+
+---
+
+## Instagram (carousel outline — when the story has a beat-by-beat arc)
+
+**Slide 1 (hook):** <strongest line, nothing else>
+**Slide 2..N-2:** <one thought per slide>
+**Slide N-1 (payoff):** <the lesson>
+**Slide N (CTA):** <soft CTA per voice profile>
+**Caption:** <hook front-loaded>
+
+_From: <moment(s)>_
+> Approve this ("carousel this") and the `buildmine-carousel` skill renders it as upload-ready PNG slides in your brand.
